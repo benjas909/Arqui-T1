@@ -1,18 +1,3 @@
-numeros = []
-
-archivo = open("numeros.txt","r")
-lineas = archivo.readlines()
-
-for linea in lineas:
-    t1,t2 = linea.strip().split("-")
-    base1,num1 = t1.split(";")
-    base2,num2 = t2.split(";")
-    numeros.append((num1,base1))
-    numeros.append((num2,base2))
-
-archivo.close()
-
-print(numeros)
 bases = {
     "2" : ["0","1"],
     "3" : ["0","1","2"],
@@ -48,3 +33,35 @@ conversion = {
     "E" : 14,
     "F" : 15,
 }
+numeros_bases = []
+
+def anybase_to_base10(number_base):
+    number = number_base[0]
+    base = number_base[1]
+
+
+def comprobar_base(numero, base):
+    for i in range(len(numero)):
+        if bases[base].count(numero[i]) == 0:
+            return False            
+    return True
+
+archivo = open("numeros.txt","r")
+lineas = archivo.readlines()
+
+
+for linea in lineas:
+    t1,t2 = linea.strip().split("-")
+    base1,num1 = t1.split(";")
+    base2,num2 = t2.split(";")
+    numeros_bases.append((num1,base1))
+    numeros_bases.append((num2,base2))
+
+archivo.close()
+
+parte_B = 0
+for i in range(len(numeros_bases)):
+    if not comprobar_base(numeros_bases[i][0],numeros_bases[i][1]):
+        parte_B +=1
+
+print(parte_B)
