@@ -35,6 +35,18 @@ conversion = {
     'F' : 15
 }
 
+def toDecimal(numStr, base):
+    numStr = numStr[::-1]
+    numInt = 0
+    ind = 0
+    while ind < len(numStr):
+        numInt += conversion[numStr[ind]] * (base ** ind)
+        ind += 1
+    
+    return(numInt)
+
+
+
 def main():
     file = open("numeros.txt")
     numQuant = 0
@@ -42,11 +54,13 @@ def main():
     errors = 0
     numStr = 0
     numInt = 0
+    errored = False
 
     for line in file:
         line = line.strip()
         split_line = line.split("-")
         for i in split_line:
+            errored = False
             numInt = 0
             base, numStr = int((i.split(";"))[0]), (i.split(";"))[1] 
             for digit in numStr:
@@ -54,11 +68,18 @@ def main():
                     print(digit, 'ok')
                 else:
                     print(digit, 'notok')
-            """if base == 10: en progreso, conversión
-                numInt = int(numStr) #en progreso, conversión
-            else:
-
-            print(numInt)"""
+                    errored = True
+            if errored:
+                errors += 1
+            else:   #lo hice función, pero dejo esto acá por si hay problemas o algo 
+                """numStr = numStr[::-1]
+                ind = 0
+                while ind < len(numStr):
+                    numInt += conversion[numStr[ind]] * (base ** ind)
+                    ind += 1"""
+                numInt = toDecimal(numStr, base)
+                print(numInt)
+            
                     
         numQuant += 2
 
