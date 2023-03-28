@@ -35,16 +35,38 @@ conversion = {
 }
 numeros_bases = []
 
-def anybase_to_base10(number_base):
-    number = number_base[0]
-    base = number_base[1]
+def toDecimal(numStr, base):
+    numStr = numStr[::-1]
+    numInt = 0
+    ind = 0
+    while ind < len(numStr):
+        numInt += conversion[numStr[ind]] * (base ** ind)
+        ind += 1
+    return(numInt)
 
+def toBinary(number):
+    binary = ""
+    while number > 0:
+        remainder = int(number % 2)
+        number = int(number / 2)
+        binary = str(remainder  ) + binary
+    return binary
 
 def comprobar_base(numero, base):
     for i in range(len(numero)):
         if bases[base].count(numero[i]) == 0:
             return False            
     return True
+
+def sign_extension(number, register):
+    if len(number) == register:
+        return number
+    else:
+        while len(number) != register:
+            number = number[0] + number
+        return number
+print("11011")
+print(sign_extension("11011",5))
 
 archivo = open("numeros.txt","r")
 lineas = archivo.readlines()
@@ -64,4 +86,17 @@ for i in range(len(numeros_bases)):
     if not comprobar_base(numeros_bases[i][0],numeros_bases[i][1]):
         parte_B +=1
 
-print(parte_B)
+# register = int(input("Ingrese tamaño de resgistro: "))
+
+# if register == 0:
+#     try:
+#         f = open("resultados.txt", "x")
+#         errores = 0 
+#         print("Registro valido, ingrese otro valor:\n")
+#         register = int(input("Ingrese tamaño de resgistro: "))
+#     except FileExistsError:
+#         f = open("resultados.txt", "r")
+
+
+# guardar numeros , crear "resultados.txt"
+# pedir numeros de registro, hacer validaciones
