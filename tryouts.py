@@ -34,6 +34,39 @@ conversion = {
     "F" : 15,
 }
 numeros_bases = []
+numbers = {}
+
+def toC2(number):
+    new_binary = ""
+
+    for i in range(len(number)):
+        if number[i] =="0":
+            new_binary += "1"
+        elif number[i] == "1":
+            new_binary += "0"
+    
+    new_binary = new_binary[::-1]
+
+    new_binary2 = ""
+    remainder = "1"
+
+    for i in range(len(new_binary)):
+        if new_binary[i] == "1" and remainder == "1":
+            new_binary2 += "0"
+            remainder = "1"
+        elif new_binary[i] == "1" and remainder == "0":
+            new_binary2 += "1"
+            remainder = "0"
+        elif new_binary[i] == "0" and remainder == "1":
+            new_binary2 += "1"
+            remainder = "0"
+        elif new_binary[i] == "0" and remainder == "0":
+            new_binary2 += "0"
+            remainder = "0"
+
+    new_binary2 = new_binary2[::-1]
+
+    return new_binary2
 
 def toDecimal(numStr, base):
     numStr = numStr[::-1]
@@ -65,12 +98,47 @@ def sign_extension(number, register):
         while len(number) != register:
             number = number[0] + number
         return number
-print("11011")
-print(sign_extension("11011",5))
+
+def sum_C2(number1, number2):
+    aux1 = number1[::-1]
+    aux2 = number2[::-1]
+    sum = ""
+    remainder = "0"
+
+    for i in range(len(number1)):
+        if aux1[i] == "1" and aux2[i] == "1" and remainder == "1":
+            sum += "1"
+            remainder = "1"
+        elif aux1[i] == "1" and aux2[i] == "1" and remainder == "0":
+            sum += "0"
+            remainder = "1"
+        elif aux1[i] == "1" and aux2[i] == "0" and remainder == "1":
+            sum += "0"
+            remainder = "1"
+        elif aux1[i] == "1" and aux2[i] == "0" and remainder == "0":
+            sum += "1"
+            remainder = "0"
+        elif aux1[i] == "0" and aux2[i] == "1" and remainder == "1":
+            sum += "0"
+            remainder = "1"
+        elif aux1[i] == "0" and aux2[i] == "1" and remainder == "0":
+            sum += "1"
+            remainder = "0"
+        elif aux1[i] == "0" and aux2[i] == "0" and remainder == "1":
+            sum += "1"
+            remainder = "0"
+        elif aux1[i] == "0" and aux2[i] == "0" and remainder == "0":
+            sum += "0"
+            remainder = "0"    
+   
+    if remainder == "1":
+        sum+="1"
+    sum = sum[::-1]
+    return sum
+
 
 archivo = open("numeros.txt","r")
 lineas = archivo.readlines()
-
 
 for linea in lineas:
     t1,t2 = linea.strip().split("-")
@@ -79,6 +147,14 @@ for linea in lineas:
     numeros_bases.append((num1,base1))
     numeros_bases.append((num2,base2))
 
+x = 1
+while x <= len(numeros_bases):
+    numbers[x] = [numeros_bases[x-1][0],numeros_bases[x-1][1]]
+    x+=1
+x-=1
+print(numeros_bases)
+print(numbers)
+print(x)
 archivo.close()
 
 parte_B = 0
