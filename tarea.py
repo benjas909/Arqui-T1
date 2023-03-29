@@ -45,13 +45,20 @@ def toDecimal(numStr, base):
     
     return(numInt)
 
-
+def validBinary(numInt, bits):
+    range = (2 ** bits) - 1
+    if (numInt > range):
+        return False
+    else:
+        return True
 
 def main():
     file = open("numeros.txt")
+    bits = int(input('ingrese el tamaño del registro: '))
     numQuant = 0
     base = 0
-    errors = 0
+    baseErrors = 0
+    bitsErrors = 0
     numStr = 0
     numInt = 0
     errored = False
@@ -70,20 +77,23 @@ def main():
                     print(digit, 'notok')
                     errored = True
             if errored:
-                errors += 1
-            else:   #lo hice función, pero dejo esto acá por si hay problemas o algo 
-                """numStr = numStr[::-1]
-                ind = 0
-                while ind < len(numStr):
-                    numInt += conversion[numStr[ind]] * (base ** ind)
-                    ind += 1"""
+                baseErrors += 1
+            else:
                 numInt = toDecimal(numStr, base)
                 print(numInt)
+                if (validBinary(numInt, bits)):
+                    print(numInt, 'representable')
+                else:
+                    print(numInt, 'nope')
+                    bitsErrors += 1
+                    
+            
+            
             
                     
         numQuant += 2
 
-    print(numQuant, errors)
+    print(numQuant, baseErrors, bitsErrors)
     file.close()
 
 
