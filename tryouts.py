@@ -36,6 +36,13 @@ conversion = {
 numeros_bases = []
 numbers = {}
 
+def validBinary(numInt, bits):
+    range = (2 ** bits) - 1
+    if (numInt > range):
+        return False
+    else:
+        return True
+
 def toC2(number):
     new_binary = ""
 
@@ -73,7 +80,7 @@ def toDecimal(numStr, base):
     numInt = 0
     ind = 0
     while ind < len(numStr):
-        numInt += conversion[numStr[ind]] * (base ** ind)
+        numInt += int(conversion[numStr[ind]]) * (int(base) ** ind)
         ind += 1
     return(numInt)
 
@@ -137,6 +144,13 @@ def sum_C2(number1, number2):
     return sum
 
 
+try:
+    salida = open("resultados.txt", "x")
+    salida.close()
+except FileExistsError:
+
+    pass
+
 archivo = open("numeros.txt","r")
 lineas = archivo.readlines()
 
@@ -152,27 +166,80 @@ while x <= len(numeros_bases):
     numbers[x] = [numeros_bases[x-1][0],numeros_bases[x-1][1]]
     x+=1
 x-=1
-print(numeros_bases)
-print(numbers)
-print(x)
+
 archivo.close()
 
-parte_B = 0
-for i in range(len(numeros_bases)):
-    if not comprobar_base(numeros_bases[i][0],numeros_bases[i][1]):
-        parte_B +=1
+# Programa principal
 
-# register = int(input("Ingrese tamaño de resgistro: "))
+while True:
+    register = int(input("Ingrese tamaño de registro: "))
+    if register == 0:
+        salida = open("resultados.txt", "r")
+        aux = salida.readlines()
+        mistakes = 0
+        for i in aux:
+            _,b,c,d = i.strip().split(";")
+            mistakes = mistakes + int(b) + int(c) + int(d.strip("."))
+        salida.close()
+        if mistakes > x:
+            print("Los errores son mayor a la cantidad de numeros, programa finalizado")
+            exit()
+        elif mistakes < x:
+            print("Registro valido. Vuelva a ingresar otro")
+    else:
+        list_aux = []
+        i = 1
+        while i <=  x:
+            aux = numbers[i]
+            aux.append(comprobar_base(aux[0], aux[1]))
+            if aux[2]:
+                aux.append(toDecimal(aux[0],aux[1]))
+                aux.append(toBinary(aux[3]))
+            else:
+                aux.append("Base Invalida")    
+                aux.append("Base Invalida")   
+            list_aux.append(aux)
+            i+=1
+        parte_b = 0
+        parte_c = 0
+        parte_d = 0
 
-# if register == 0:
-#     try:
-#         f = open("resultados.txt", "x")
-#         errores = 0 
-#         print("Registro valido, ingrese otro valor:\n")
-#         register = int(input("Ingrese tamaño de resgistro: "))
-#     except FileExistsError:
-#         f = open("resultados.txt", "r")
+        for u in list_aux:
+            if u[2]:
+                if validBinary(u[3],register):
+                    u.append(sign_extension(u[4],register))
+                    
+                else:   
+                    parte_c += 1
+                    u.append("Error")
+            else:
+                parte_b += 1
+                u.append("Error")
+            print(u)
 
+        flag = True
+        x,y = 0,1
+        while flag:
+            if list_aux[x][5] == "Error" or list_aux[y][5] == "Error":
+                x+=2
+                y+=2
+                if y > len(list_aux):
+                    flag = False
+            else:
+                if register < len(sum_C2(toC2(list_aux[x][5]),toC2(list_aux[y][5]))):
+                    parte_d += 1
+                x+=2
+                y+=2
+                if y > len(list_aux):
+                    flag = False
 
-# guardar numeros , crear "resultados.txt"
-# pedir numeros de registro, hacer validaciones
+        file = open("resultados.txt","a")
+        file.write( str(x)+";"+str(parte_b)+";"+str(parte_c)+";"+str(parte_d)+".\n")
+        file.close()
+        
+        o = 0
+        for o in range(len(numeros_bases)):
+            numbers[o+1] = [numeros_bases[o][0],numeros_bases[o][1]]
+        
+        print(x, parte_b, parte_c, parte_d)
+        print(numbers)
