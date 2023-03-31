@@ -1,19 +1,19 @@
 BASES = {
-    2 : ['0','1'],
-    3 : ['0','1','2'],
-    4 : ['0', '1', '2', '3'],
-    5 : ['0', '1', '2', '3', '4'],
-    6 : ['0', '1', '2', '3', '4', '5'],
-    7 : ['0', '1', '2', '3', '4', '5', '6'],
-    8 : ['0', '1', '2', '3', '4', '5', '6', '7'],
-    9 : ['0', '1', '2', '3', '4', '5', '6', '7', '8'],
-    10 : ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
-    11 : ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A'],
-    12 : ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B'],
-    13 : ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C'],
-    14 : ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D'],
-    15 : ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E'],
-    16 : ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F']
+    "2" : ['0','1'],
+    "3" : ['0','1','2'],
+    "4" : ['0', '1', '2', '3'],
+    "5" : ['0', '1', '2', '3', '4'],
+    "6" : ['0', '1', '2', '3', '4', '5'],
+    "7" : ['0', '1', '2', '3', '4', '5', '6'],
+    "8" : ['0', '1', '2', '3', '4', '5', '6', '7'],
+    "9" : ['0', '1', '2', '3', '4', '5', '6', '7', '8'],
+    "10" : ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
+    "11" : ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A'],
+    "12" : ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B'],
+    "13" : ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C'],
+    "14" : ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D'],
+    "15" : ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E'],
+    "16" : ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F']
 }
 
 CONVERSION = {
@@ -36,6 +36,24 @@ CONVERSION = {
 }
 
 def toDecimal(numStr, base):
+    """
+    Convierte un número desde cualquier base a base 10.
+
+    Usando el mismo algoritmo visto en clases, convierte cualquier número en cualquier base a un número en base 10.
+
+    Parameters
+    ----------
+    numStr : str
+        Número a convertir, en formato string.
+    base : str
+        Base en la que está el número a convertir.
+
+    Returns
+    -------
+    int
+        Número convertido a base 10
+
+    """
     numStr = numStr[::-1]
     numInt = 0
     ind = 0
@@ -46,6 +64,24 @@ def toDecimal(numStr, base):
 
 
 def validBinary(numInt, bits):
+    """
+    Revisa si el número se puede escribir en binario con la cantidad de bits dada.
+
+    Revisa si el número está dentro del rango permitido para un número binario con la cantidad de bits dada.
+
+    Parameters
+    ----------
+    numInt : int
+        Número a revisar.
+    bits : int
+        Cantidad de bits.
+
+    Returns
+    -------
+    bool
+        Retorna True si es posible representarlo, y False en caso contrario.
+
+    """
     range = (2 ** bits) - 1
     if (numInt > range):
         return False
@@ -54,6 +90,24 @@ def validBinary(numInt, bits):
     
 
 def toC2(number):
+    """
+    Summary line.
+
+    Extended description of function.
+
+    Parameters
+    ----------
+    arg1 : int
+        Description of arg1
+    arg2 : str
+        Description of arg2
+
+    Returns
+    -------
+    int
+        Description of return value
+
+    """
     new_binary = ""
 
     for i in range(len(number)):
@@ -87,22 +141,76 @@ def toC2(number):
 
 
 def toBinary(number):
+    """
+    Summary line.
+
+    Extended description of function.
+
+    Parameters
+    ----------
+    arg1 : int
+        Description of arg1
+    arg2 : str
+        Description of arg2
+
+    Returns
+    -------
+    int
+        Description of return value
+
+    """
     binary = ""
     while number > 0:
         remainder = int(number % 2)
         number = int(number / 2)
-        binary = str(remainder  ) + binary
+        binary = str(remainder) + binary
     return binary
 
 
-def checkBase(number, base):
-    for i in range(len(number)):
-        if BASES[int(base)].count(number[i]) == 0:
+def checkBase(numStr, base):
+    """
+    Revisa si el número se puede representar en la base dada.
+
+    Revisa si cada dígito está dentro de los dígitos permitidos en la base.
+
+    Parameters
+    ----------
+    numStr : str
+        Número a revisar, en formato string.
+    base : str
+        Base a revisar.
+
+    Returns
+    -------
+    bool
+        False, si algún dígito no está en la base, True en caso contrario.
+
+    """
+    for digit in numStr:
+        if digit not in BASES[base]:
             return False            
     return True
 
 
 def signExtension(number, register):
+    """
+    Summary line.
+
+    Extended description of function.
+
+    Parameters
+    ----------
+    arg1 : int
+        Description of arg1
+    arg2 : str
+        Description of arg2
+
+    Returns
+    -------
+    int
+        Description of return value
+
+    """
     if len(number) == register:
         return number
     else:
@@ -112,6 +220,24 @@ def signExtension(number, register):
     
 
 def sum_C2(number1, number2):
+    """
+    Summary line.
+
+    Extended description of function.
+
+    Parameters
+    ----------
+    arg1 : int
+        Description of arg1
+    arg2 : str
+        Description of arg2
+
+    Returns
+    -------
+    int
+        Description of return value
+
+    """
     aux1 = number1[::-1]
     aux2 = number2[::-1]
     sum = ""
