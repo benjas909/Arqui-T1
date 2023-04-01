@@ -1,3 +1,6 @@
+# from os import remove
+# remove("resultados.txt")
+
 BASES = {
     "2" : ['0','1'],
     "3" : ['0','1','2'],
@@ -91,22 +94,22 @@ def validBinary(numInt, bits):
 
 def toC2(number):
     """
-    Summary line.
-
-    Extended description of function.
-
+    Transforma un numero binario a su version en complemento de dos.
+    
+    Toma la representacion de un numero binario y la pasa a complemnto dos de siguiendo los pasos:
+    - Transformar a C1
+    - sumarle uno en binario
+    
     Parameters
     ----------
-    arg1 : int
-        Description of arg1
-    arg2 : str
-        Description of arg2
+    number : string
+        representacion del numero que se quiere convertir.
 
     Returns
     -------
-    int
-        Description of return value
-
+    string
+        Complemento dos del numero introducido.
+    
     """
     new_binary = ""
 
@@ -142,22 +145,20 @@ def toC2(number):
 
 def toBinary(number):
     """
-    Summary line.
-
-    Extended description of function.
+    Transforma un numero a su representación en binario.
+    
+    Toma un numero en base 10, y lo transforma en su version en binario.
 
     Parameters
     ----------
-    arg1 : int
-        Description of arg1
-    arg2 : str
-        Description of arg2
+    number : int
+        Representación del numero en base 10.
 
     Returns
     -------
-    int
-        Description of return value
-
+    String
+        Representación en binario del numero introducido.
+    
     """
     binary = ""
     while number > 0:
@@ -194,22 +195,23 @@ def checkBase(numStr, base):
 
 def signExtension(number, register):
     """
-    Summary line.
+    Permite hacer la extensión de signo si es requerida.
 
-    Extended description of function.
+    Toma la representación de un numero binario de n bits y le hace la extension de signo hasta
+    el tamaño del registro querido.
 
     Parameters
     ----------
-    arg1 : int
-        Description of arg1
-    arg2 : str
-        Description of arg2
-
+    number : String
+        Representación del numero en binario
+    register : int
+        Tamaño del registro del numero
+    
     Returns
     -------
-    int
-        Description of return value
-
+    String
+        Numero en binario con la extensión de signo si es que fue hecha.
+    
     """
     if len(number) == register:
         return number
@@ -221,22 +223,22 @@ def signExtension(number, register):
 
 def sum_C2(number1, number2):
     """
-    Summary line.
-
-    Extended description of function.
-
+    Suma los complemento dos.
+    
+    Realiza la suma de dos numeros binarios que están en complemento dos.
+    
     Parameters
     ----------
-    arg1 : int
-        Description of arg1
-    arg2 : str
-        Description of arg2
+    number1: String
+        Representación del complemento 2 de un numero binario
+    number2: String
+        Representación del complemento 2 de un numero binario
 
     Returns
     -------
-    int
-        Description of return value
-
+    String
+        La representación de la suma de los dos numeros introducidos.
+    
     """
     aux1 = number1[::-1]
     aux2 = number2[::-1]
@@ -285,7 +287,6 @@ def main():
         outFile = open("resultados.txt", "x")
         outFile.close()
     except FileExistsError:
-
         pass
 
     for line in lines:
@@ -321,7 +322,7 @@ def main():
                 print("La cantidad de errores es mayor al tamaño del registro, finalizando programa.")
                 return
             else:
-                print("Tamaño de registro válido.")
+                print("Tamaño de registro válido (La cantidad de errores no supera la cantidad de numeros del archivo).")
 
         else:
             auxList = []
@@ -357,7 +358,6 @@ def main():
                     baseErrors += 1
                     u.append("Error")
 
-                print(u)
 
             flag = True
             x,y = 0,1
@@ -385,10 +385,7 @@ def main():
             
             o = 0
             for o in range(len(numsBases)):
-                numbers[o + 1] = [numsBases[o][0],numsBases[o][1]]
-            
-            print(numQuant, baseErrors, bitsErrors, overflow)
-            print(numbers)
+                numbers[o + 1] = [numsBases[o][0],numsBases[o][1]]            
 
 if __name__ == "__main__":
     main()
