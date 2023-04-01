@@ -1,6 +1,3 @@
-# from os import remove
-# remove("resultados.txt")
-
 BASES = {
     "2" : ['0','1'],
     "3" : ['0','1','2'],
@@ -221,7 +218,7 @@ def signExtension(number, register):
         return number
     
 
-def sum_C2(number1, number2):
+def sumC2(number1, number2):
     """
     Suma los complemento dos.
     
@@ -283,12 +280,6 @@ def main():
     numsBases = []
     numbers = {}
 
-    try:
-        outFile = open("resultados.txt", "x")
-        outFile.close()
-    except FileExistsError:
-        pass
-
     for line in lines:
         t1,t2 = line.strip().split("-")
         base1,num1 = t1.split(";")
@@ -296,15 +287,18 @@ def main():
         numsBases.append((num1, base1))
         numsBases.append((num2, base2))
 
+    inFile.close()
+
+    outFile = open("resultados.txt", "w")
+    outFile.close()
+
     numQuant = 1
     while numQuant <= len(numsBases):
         numbers[numQuant] = [numsBases[numQuant - 1][0],numsBases[numQuant - 1][1]]
         numQuant += 1
     numQuant -= 1
 
-    inFile.close()
 
-    
     while True:
         regSize = int(input('Ingrese el tamaño del registro: '))
         
@@ -361,7 +355,6 @@ def main():
 
             flag = True
             x,y = 0,1
-
             while flag:
                 if auxList[x][5] == "Error" or auxList[y][5] == "Error":
                     x += 2
@@ -371,7 +364,7 @@ def main():
                         flag = False
 
                 else:
-                    if regSize < len(sum_C2(toC2(auxList[x][5]),toC2(auxList[y][5]))):
+                    if regSize < len(sumC2(toC2(auxList[x][5]),toC2(auxList[y][5]))):
                         overflow += 1
                     x += 2
                     y += 2
@@ -379,9 +372,9 @@ def main():
                     if y > len(auxList):
                         flag = False
 
-            file = open("resultados.txt","a")
-            file.write( str(x) + ";" + str(baseErrors) + ";" + str(bitsErrors) + ";" + str(overflow) + ".\n")
-            file.close()
+            outFile = open("resultados.txt","a")
+            outFile.write( str(x) + ";" + str(baseErrors) + ";" + str(bitsErrors) + ";" + str(overflow) + "\n")
+            outFile.close()
             
             o = 0
             for o in range(len(numsBases)):
