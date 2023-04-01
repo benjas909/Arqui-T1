@@ -9,3 +9,5 @@ Consideraciones:
     final era parte del formato o era un signo de puntuación del texto.
     -Se supuso que las bases del documento están entre 2 y 16, ya que en el texto no se especifica.
     -Se supuso que el input siempre está en el formato correcto.
+    -Se supuso que la cantidad de numeros en el archivo siempre será par, para poder sumar en C2 si 
+    es posible.
