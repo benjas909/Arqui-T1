@@ -302,7 +302,7 @@ def main():
 
 
     while True:
-        regSize = int(input('Ingrese el tamaño del registro: '))
+        regSize = int(input('Ingrese el tamaño del registro: ')) #Tamaño del registro
 
         #Procedimiento en caso de ingresar un 0
         if regSize == 0:
@@ -310,11 +310,13 @@ def main():
             aux = outFile.readlines()
             totalErrors = 0
 
+            # Conteo de errores
             for i in aux:
                 _, b, c, d = i.strip().split(";")
                 totalErrors += int(b) + int(c) + int(d.strip("."))
             outFile.close()
 
+            #Mensajes en caso de que los errores > cant_numeros y viceversa
             if totalErrors > numQuant:
                 print("La cantidad de errores es mayor al tamaño del registro, finalizando programa.")
                 return
@@ -328,8 +330,9 @@ def main():
 
             while i <=  numQuant:
                 aux = numbers[i]
+                #Chequea si hubo errores de base
                 aux.append(checkBase(aux[0], aux[1]))
-
+                #Transforma a decimal y binario para su posterior uso
                 if aux[2]:
                     aux.append(toDecimal(aux[0],aux[1]))
                     aux.append(toBinary(aux[3]))
@@ -345,6 +348,7 @@ def main():
             overflow = 0
 
             for u in auxList:
+                #Chequea si hubo error en la cantidad de bits del registro
                 if u[2]:
                     if validBinary(u[3],regSize):
                         u.append(signExtension(u[4],regSize))  
@@ -360,13 +364,14 @@ def main():
             flag = True
             x,y = 0,1
             while flag:
+                #Chequea si hubo errores de base o en tamaño de registro
                 if auxList[x][5] == "Error" or auxList[y][5] == "Error":
                     x += 2
                     y += 2
 
                     if y > len(auxList):
                         flag = False
-
+                #Suma en C2 los dos numeros
                 else:
                     if regSize < len(sumC2(toC2(auxList[x][5]),toC2(auxList[y][5]))):
                         overflow += 1
@@ -381,6 +386,7 @@ def main():
             outFile.write( str(x) + ";" + str(baseErrors) + ";" + str(bitsErrors) + ";" + str(overflow) + "\n")
             outFile.close()
             
+            #procedimiento que restablece el diccionario de entrada
             o = 0
             for o in range(len(numsBases)):
                 numbers[o + 1] = [numsBases[o][0],numsBases[o][1]]            
