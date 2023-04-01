@@ -276,22 +276,24 @@ def sumC2(number1, number2):
 
 def main():
     inFile = open("numeros.txt")
-    lines = inFile.readlines()
     numsBases = []
     numbers = {}
 
+    #Extracción de datos de archivo de entrada
+    lines = inFile.readlines()
     for line in lines:
         t1,t2 = line.strip().split("-")
         base1,num1 = t1.split(";")
         base2,num2 = t2.split(";")
         numsBases.append((num1, base1))
         numsBases.append((num2, base2))
-
     inFile.close()
 
+    #Se crea un nuevo archivo de resultados o se borran los contenidos de uno ya existente
     outFile = open("resultados.txt", "w")
     outFile.close()
 
+    #Conteo de números en el archivo de 
     numQuant = 1
     while numQuant <= len(numsBases):
         numbers[numQuant] = [numsBases[numQuant - 1][0],numsBases[numQuant - 1][1]]
@@ -301,7 +303,8 @@ def main():
 
     while True:
         regSize = int(input('Ingrese el tamaño del registro: '))
-        
+
+        #Procedimiento en caso de ingresar un 0
         if regSize == 0:
             outFile = open("resultados.txt", "r")
             aux = outFile.readlines()
@@ -318,6 +321,7 @@ def main():
             else:
                 print("Tamaño de registro válido (La cantidad de errores no supera la cantidad de numeros del archivo).")
 
+        #Procedimiento en caso contrario
         else:
             auxList = []
             i = 1
@@ -372,6 +376,7 @@ def main():
                     if y > len(auxList):
                         flag = False
 
+            #Se escribe en el archivo de salida
             outFile = open("resultados.txt","a")
             outFile.write( str(x) + ";" + str(baseErrors) + ";" + str(bitsErrors) + ";" + str(overflow) + "\n")
             outFile.close()
